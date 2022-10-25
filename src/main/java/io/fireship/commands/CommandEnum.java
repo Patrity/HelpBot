@@ -4,7 +4,7 @@ import io.fireship.commands.impl.Help;
 
 public enum CommandEnum {
     HELP("help", "Displays a message on how to use this bot.", false, new Help()),
-    PING("pingg", "Pong!", false, new Help());
+    PING("ping", "Pong!", false, new Help());
 
     private final String name, description;
     private final boolean moderatorOnly;
@@ -17,6 +17,7 @@ public enum CommandEnum {
         this.command = command;
     }
 
+    //misc getters/setters
     public String getName() {
         return this.name;
     }
