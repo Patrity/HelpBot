@@ -44,7 +44,6 @@ public class Main {
             HELPBOT.initProperties();
             botToken = appProperties.getProperty("bot_token");
         }
-        System.out.println(botToken);
         return botToken;
     }
 
@@ -65,7 +64,7 @@ public class Main {
                 .build();
     }
 
-    //
+    //Loop through commands enum and register them with discord
     void registerCommands() {
         logger.info("Registering commands...");
         Arrays.asList(CommandEnum.values()).forEach(command -> {
