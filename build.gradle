@@ -33,3 +33,10 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+task buildApp() {
+    description("Creates deployment jar")
+    group("Fireship")
+    dependsOn(shadowJar)
+}
+task stage(dependsOn: ['buildApp', 'clean'])
+buildApp.mustRunAfter clean
