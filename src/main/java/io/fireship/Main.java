@@ -27,7 +27,6 @@ public class Main {
         logger.info("Fireship Helpbot Loading...");
 
         //Load configuration file and grab the bot token
-        HELPBOT.initProperties();
         String botToken = getBotToken();
         if (botToken == null) {
             logger.error("Bot token not found");
@@ -38,10 +37,11 @@ public class Main {
 
     }
 
-    static String getBotToken() {
+    static String getBotToken() throws IOException {
         String botToken = System.getenv("token");
         if (botToken == null) {
             logger.error("Bot token not found.. Trying to load from app.properties");
+            HELPBOT.initProperties();
             botToken = appProperties.getProperty("bot_token");
         }
         System.out.println(botToken);
