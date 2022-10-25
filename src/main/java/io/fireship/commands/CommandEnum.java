@@ -2,9 +2,11 @@ package io.fireship.commands;
 
 import io.fireship.commands.impl.Help;
 import io.fireship.commands.impl.Ping;
+import io.fireship.commands.impl.ProHelp;
 
 public enum CommandEnum {
     HELP("help", "Displays a message on how to use this bot.", false, new Help()),
+    PROHELP("prohelp", "Shows users how to unlock Fireship pro perks in Discord", false, new ProHelp()),
     PING("ping", "Pong!", false, new Ping());
 
     private final String name, description;

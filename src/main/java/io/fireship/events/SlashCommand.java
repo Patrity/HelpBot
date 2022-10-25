@@ -4,7 +4,6 @@ import io.fireship.Main;
 import io.fireship.commands.CommandEnum;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.slf4j.Logger;
 
 import java.util.Arrays;
 
