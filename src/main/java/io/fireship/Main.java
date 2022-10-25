@@ -6,6 +6,7 @@ import io.fireship.events.SlashCommand;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,19 +16,21 @@ import java.util.Properties;
 public class Main {
     public static Main HELPBOT;
     public static Properties appProperties = new Properties();
+    public static Logger logger;
     public static JDA jda;
 
     public static void main(String[] args) throws IOException {
 
         //Create instance of the app to reference it in other locations
         HELPBOT = new Main();
-        System.out.println("Fireship Helpbot Loading...");
+        logger = org.slf4j.LoggerFactory.getLogger(Main.class);
+        logger.info("Fireship Helpbot Loading...");
 
         //Load configuration file and grab the bot token
         HELPBOT.initProperties();
         String botToken = appProperties.getProperty("bot_token");
         if (botToken == null) {
-            System.out.println("Bot token not found. Please add it to app.properties");
+            logger.error("Bot token not found. Please add it to app.properties");
             return;
         }
         HELPBOT.initBot(botToken);
@@ -37,13 +40,13 @@ public class Main {
 
     //load app.properties from the java resources directory
     void initProperties() throws IOException {
-        System.out.println("Loading app configuration...");
+        logger.info("Loading app configuration...");
         InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
         appProperties.load(str);
     }
 
     void initBot(String token) {
-        System.out.println("Initializing bot...");
+        logger.info("Initializing bot...");
         //build the JDA instance of the bot and store it in a global variable
         jda = JDABuilder.createDefault(token)
                 .setActivity(Activity.watching("Fireship.io"))
@@ -54,9 +57,9 @@ public class Main {
 
     //
     void registerCommands() {
-        System.out.println("Registering commands...");
+        logger.info("Registering commands...");
         Arrays.asList(CommandEnum.values()).forEach(command -> {
-            System.out.println(" - Registering " + command.getName());
+            logger.info(" - Registering " + command.getName());
             jda.upsertCommand(command.getName(), command.getDescription()).queue();
         });
 
