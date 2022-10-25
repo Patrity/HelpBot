@@ -28,14 +28,24 @@ public class Main {
 
         //Load configuration file and grab the bot token
         HELPBOT.initProperties();
-        String botToken = appProperties.getProperty("bot_token");
+        String botToken = getBotToken();
         if (botToken == null) {
-            logger.error("Bot token not found. Please add it to app.properties");
+            logger.error("Bot token not found");
             return;
         }
         HELPBOT.initBot(botToken);
         HELPBOT.registerCommands();
 
+    }
+
+    static String getBotToken() {
+        String botToken = System.getenv("token");
+        if (botToken == null) {
+            logger.error("Bot token not found.. Trying to load from app.properties");
+            botToken = appProperties.getProperty("bot_token");
+        }
+        System.out.println(botToken);
+        return botToken;
     }
 
     //load app.properties from the java resources directory
