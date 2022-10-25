@@ -8,7 +8,6 @@ import io.fireship.commands.impl.ProHelp;
 public enum CommandEnum {
     HELP("help", "Displays a message on how to use this bot.", false, new Help()),
     PROHELP("prohelp", "Shows users how to unlock Fireship pro perks in Discord", false, new ProHelp()),
-    PING("ping", "Pong!", false, new Ping());
     CODE("code", "Shows users how to share code using markdown", false, new Code()),
     PING("ping", "Returns round trip time", false, new Ping());
 
