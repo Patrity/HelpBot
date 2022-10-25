@@ -1,10 +1,11 @@
 package io.fireship.commands;
 
 import io.fireship.commands.impl.Help;
+import io.fireship.commands.impl.Ping;
 
 public enum CommandEnum {
     HELP("help", "Displays a message on how to use this bot.", false, new Help()),
-    PING("ping", "Pong!", false, new Help());
+    PING("ping", "Pong!", false, new Ping());
 
     private final String name, description;
     private final boolean moderatorOnly;
