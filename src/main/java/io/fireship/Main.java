@@ -63,16 +63,17 @@ public class Main {
         if(HELPBOT.isProduction) {
             //load from env
             HELPBOT.config.put("token", System.getenv("token"));
-        }
-        HELPBOT.logger.info("Loading app configuration...");
-        InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
-        appProperties.load(str);
-        for(String key : appProperties.stringPropertyNames()) {
-            HELPBOT.config.put(key, appProperties.getProperty(key));
-        }
-        //loop through config and print it out
-        for(Map.Entry<String, String> entry : HELPBOT.config.entrySet()) {
-            HELPBOT.logger.warn(entry.getKey() + " = " + entry.getValue());
+        } else {
+            HELPBOT.logger.info("Loading app configuration...");
+            InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
+            appProperties.load(str);
+            for(String key : appProperties.stringPropertyNames()) {
+                HELPBOT.config.put(key, appProperties.getProperty(key));
+            }
+            //loop through config and print it out
+            for(Map.Entry<String, String> entry : HELPBOT.config.entrySet()) {
+                HELPBOT.logger.warn(entry.getKey() + " = " + entry.getValue());
+            }
         }
     }
 
