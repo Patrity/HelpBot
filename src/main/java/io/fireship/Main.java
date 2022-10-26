@@ -4,6 +4,8 @@ import io.fireship.commands.CommandEnum;
 import io.fireship.events.ReadyListener;
 import io.fireship.events.SlashCommand;
 import io.fireship.model.Option;
+import io.javalin.Javalin;
+import io.javalin.http.staticfiles.Location;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -25,6 +27,7 @@ public class Main {
     public Properties appProperties = new Properties();
     public Logger logger;
     public JDA jda;
+    public Javalin http;
     public boolean isProduction;
     public Map<String, String> config = new HashMap<>();
 
@@ -49,15 +52,18 @@ public class Main {
         HELPBOT.initBot(botToken);
         HELPBOT.registerCommands();
 
-        if (HELPBOT.isProduction) {
-            HELPBOT.startServer(Integer.parseInt(args[0]));
-        }
+        HELPBOT.startServer(80);
 
     }
 
-    void startServer(int port) throws IOException {
-        Socket s = new Socket();
-        s.bind(new InetSocketAddress(port));
+    void startServer(int port) {
+        http = Javalin.create(javalinConfig -> {
+            javalinConfig.addStaticFiles( staticFiles -> {
+                staticFiles.location = Location.CLASSPATH;
+                staticFiles.directory = "/static";
+                staticFiles.hostedPath = "/";
+            });
+        }).start(port);
     }
 
     boolean productionCheck() {
