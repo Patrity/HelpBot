@@ -55,7 +55,7 @@ public class Main {
 
     }
 
-    boolean startServer(int port) throws IOException {
+    void startServer(int port) throws IOException {
         Socket s = new Socket();
         s.bind(new InetSocketAddress(port));
     }
