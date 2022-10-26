@@ -51,8 +51,7 @@ public class Main {
         }
         HELPBOT.initBot(botToken);
         HELPBOT.registerCommands();
-
-        HELPBOT.startServer(80);
+        if (HELPBOT.isProduction) HELPBOT.startServer(Integer.parseInt(args[0]));
 
     }
 
