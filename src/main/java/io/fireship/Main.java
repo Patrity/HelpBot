@@ -13,6 +13,8 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,15 @@ public class Main {
         HELPBOT.initBot(botToken);
         HELPBOT.registerCommands();
 
+        if (HELPBOT.isProduction) {
+            HELPBOT.startServer(Integer.parseInt(args[0]));
+        }
+
+    }
+
+    boolean startServer(int port) throws IOException {
+        Socket s = new Socket();
+        s.bind(new InetSocketAddress(port));
     }
 
     boolean productionCheck() {

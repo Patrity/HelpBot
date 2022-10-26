@@ -1,1 +1,1 @@
-web: java -jar build/libs/FireshipHelpbot.jar
+web: java -jar build/libs/FireshipHelpbot.jar $PORT

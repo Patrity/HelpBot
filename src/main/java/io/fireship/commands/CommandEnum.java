@@ -11,7 +11,7 @@ public enum CommandEnum {
     HELP("help", "Displays a message on how to use this bot.", false, new Help()),
     PROHELP("prohelp", "Shows users how to unlock Fireship pro perks in Discord", false, new ProHelp()),
     CODE("code", "Shows users how to share code using markdown", false, new Code()),
-    THANK("thank", "Thanks a user for helping", true, new Thank(),
+    THANK("thank", "Thanks a user for helping", false, new Thank(),
             new Option("user", "The user to thank", true, OptionType.STRING),
             new Option("message", "The reason you are thanking the user", false, OptionType.STRING)
     ),
