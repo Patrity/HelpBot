@@ -1,6 +1,5 @@
 package io.fireship.events;
 
-import io.fireship.Main;
 import io.fireship.commands.CommandEnum;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -16,8 +15,7 @@ public class SlashCommand extends ListenerAdapter {
 
         HELPBOT.logger.info("Slash command received: " + event.getName());
 
-        //TODO: Remove once we are finished testing
-        if (event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("admin"))) {
+        if (!HELPBOT.isProduction && event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("admin"))) {
             event.reply("You do not have permission to use this command.").setEphemeral(true).queue();
             return;
         }

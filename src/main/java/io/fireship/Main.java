@@ -36,8 +36,10 @@ public class Main {
         //check if we are running in production
         HELPBOT.isProduction = HELPBOT.productionCheck();
 
+        HELPBOT.initProperties();
+
         //Load configuration file and grab the bot token
-        String botToken = getBotToken();
+        String botToken = HELPBOT.getBotToken();
         if (botToken == null) {
             HELPBOT.logger.error("Bot token not found");
             return;
@@ -52,21 +54,26 @@ public class Main {
         return token != null;
     }
 
-    static String getBotToken() throws IOException {
-        String botToken = System.getenv("token");
-        if (botToken == null) {
-            HELPBOT.logger.error("Bot token not found.. Trying to load from app.properties");
-            HELPBOT.initProperties();
-            botToken = HELPBOT.appProperties.getProperty("bot_token");
-        }
-        return botToken;
+    String getBotToken() throws IOException {
+        return HELPBOT.config.get("token");
     }
 
     //load app.properties from the java resources directory
     void initProperties() throws IOException {
+        if(HELPBOT.isProduction) {
+            //load from env
+            HELPBOT.config.put("token", System.getenv("token"));
+        }
         HELPBOT.logger.info("Loading app configuration...");
         InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
         appProperties.load(str);
+        for(String key : appProperties.stringPropertyNames()) {
+            HELPBOT.config.put(key, appProperties.getProperty(key));
+        }
+        //loop through config and print it out
+        for(Map.Entry<String, String> entry : HELPBOT.config.entrySet()) {
+            HELPBOT.logger.warn(entry.getKey() + " = " + entry.getValue());
+        }
     }
 
     void initBot(String token) {

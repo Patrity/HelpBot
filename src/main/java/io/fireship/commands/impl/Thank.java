@@ -13,6 +13,7 @@ public class Thank implements Command, HasOptions {
     @Override
     public void onCommand(SlashCommandInteractionEvent event) {
         event.deferReply().setEphemeral(true).queue();
+        event.getHook().sendMessage("This feature is coming soon!").queue();
     }
 
     @Override
