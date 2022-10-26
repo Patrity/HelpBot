@@ -7,12 +7,14 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.Arrays;
 
+import static io.fireship.Main.HELPBOT;
+
 public class SlashCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
-        Main.logger.info("Slash command received: " + event.getName());
+        HELPBOT.logger.info("Slash command received: " + event.getName());
 
         //TODO: Remove once we are finished testing
         if (event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("admin"))) {

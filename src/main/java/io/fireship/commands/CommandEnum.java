@@ -13,13 +13,16 @@ public enum CommandEnum {
 
     private final String name, description;
     private final boolean moderatorOnly;
+    private final List<Option> options;
     private final Command command;
 
     CommandEnum(String name, String description, boolean moderatorOnly, Command command) {
+    CommandEnum(String name, String description, boolean moderatorOnly, Command command, Option... options) {
         this.name = name;
         this.description = description;
         this.moderatorOnly = moderatorOnly;
         this.command = command;
+        this.options = List.of(options);
     }
 
     //misc getters/setters
@@ -35,4 +38,8 @@ public enum CommandEnum {
     public Command getCommand() {
         return this.command;
     }
+    public List<Option> getOptions() {
+        return this.options;
+    }
+
 }
