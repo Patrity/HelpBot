@@ -1,6 +1,7 @@
 package io.fireship;
 
 import io.fireship.commands.CommandEnum;
+import io.fireship.events.ChatListener;
 import io.fireship.events.ReadyListener;
 import io.fireship.events.SlashCommand;
 import io.fireship.model.Option;
@@ -10,6 +11,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 import org.slf4j.Logger;
 
@@ -76,11 +78,11 @@ public class Main {
 
     //load app.properties from the java resources directory
     void initProperties() throws IOException {
+        HELPBOT.logger.info("Loading app configuration...");
         if(HELPBOT.isProduction) {
             //load from env
             HELPBOT.config.put("token", System.getenv("token"));
         } else {
-            HELPBOT.logger.info("Loading app configuration...");
             InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
             appProperties.load(str);
             for(String key : appProperties.stringPropertyNames()) {
@@ -96,10 +98,11 @@ public class Main {
     void initBot(String token) {
         HELPBOT.logger.info("Initializing bot...");
         //build the JDA instance of the bot and store it in a global variable
-        jda = JDABuilder.createDefault(token)
+        jda = JDABuilder.createLight(token, GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT)
                 .setActivity(Activity.watching("Fireship.io"))
                 .addEventListeners(new ReadyListener())
                 .addEventListeners(new SlashCommand())
+                .addEventListeners(new ChatListener())
                 .build();
     }
 
