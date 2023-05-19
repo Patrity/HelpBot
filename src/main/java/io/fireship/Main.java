@@ -10,13 +10,12 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
-import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.slf4j.Logger;
-
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -51,18 +50,21 @@ public class Main {
         }
         HELPBOT.initBot(botToken);
         HELPBOT.registerCommands();
-        if (HELPBOT.isProduction) HELPBOT.startServer(Integer.parseInt(args[0]));
-
+        try {
+            if (HELPBOT.isProduction) HELPBOT.startServer(Integer.parseInt(args[0]));
+        } catch (Exception e) {
+            HELPBOT.logger.error("Please provide a valid port number");
+        }
     }
 
     void startServer(int port) {
-        http = Javalin.create(javalinConfig -> {
+        http = Javalin.create(javalinConfig ->
             javalinConfig.addStaticFiles( staticFiles -> {
                 staticFiles.location = Location.CLASSPATH;
                 staticFiles.directory = "/static";
                 staticFiles.hostedPath = "/";
-            });
-        }).start(port);
+            })
+        ).start(port);
     }
 
     boolean productionCheck() {
@@ -70,7 +72,7 @@ public class Main {
         return token != null;
     }
 
-    String getBotToken() throws IOException {
+    String getBotToken() {
         return HELPBOT.config.get("token");
     }
 
@@ -106,17 +108,18 @@ public class Main {
     //Loop through commands enum and register them with discord
     void registerCommands() {
         HELPBOT.logger.info("Registering commands...");
-        Arrays.asList(CommandEnum.values()).forEach(command -> {
-            HELPBOT.logger.info(" - Registering " + command.getName());
-            CommandCreateAction commandAction = jda.upsertCommand(command.getName(), command.getDescription());
+        CommandListUpdateAction commands = jda.updateCommands();
+        Arrays.asList(CommandEnum.values()).forEach(commandData -> {
+            HELPBOT.logger.info(" - Registering " + commandData.getName());
+            SlashCommandData command = Commands.slash(commandData.getName(), commandData.getDescription());
 
-            for (int i = 0; i < command.getOptions().size(); i++) {
-                Option option = command.getOptions().get(i);
+            for (int i = 0; i < commandData.getOptions().size(); i++) {
+                Option option = commandData.getOptions().get(i);
                 HELPBOT.logger.info(" - - Adding option " + option.getName());
-                commandAction.addOption(OptionType.STRING, option.getName(), option.getDescription(), option.isRequired());
+                command.addOption(OptionType.STRING, option.getName(), option.getDescription(), option.isRequired());
             }
-            commandAction.queue();
+            commands.addCommands(command);
         });
-
+        commands.queue();
     }
 }
