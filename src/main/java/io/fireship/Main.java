@@ -2,6 +2,7 @@ package io.fireship;
 
 import io.fireship.commands.CommandEnum;
 import io.fireship.events.ReadyListener;
+import io.fireship.events.RoleSelect;
 import io.fireship.events.SlashCommand;
 import io.fireship.model.Option;
 import io.javalin.Javalin;
@@ -102,6 +103,7 @@ public class Main {
                 .setActivity(Activity.watching("Fireship.io"))
                 .addEventListeners(new ReadyListener())
                 .addEventListeners(new SlashCommand())
+                .addEventListeners(new RoleSelect())
                 .build();
     }
 
