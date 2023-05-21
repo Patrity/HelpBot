@@ -15,7 +15,8 @@ public enum CommandEnum {
             new Option("user", "The user to thank", true, OptionType.STRING),
             new Option("message", "The reason you are thanking the user", false, OptionType.STRING)
     ),
-    PING("ping", "Returns round trip time", false, new Ping());
+    PING("ping", "Returns round trip time", false, new Ping()),
+    SETUP_LANGUAGE_ROLES("setup-tool-roles", "Sets up the tool roles message", true, new SetupToolRoles());
 
     private final String name, description;
     private final boolean moderatorOnly;
