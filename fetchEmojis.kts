@@ -50,7 +50,7 @@ val knownNames: Map<String, String> = mapOf(
     "golang" to "Go",
     "haskell" to "Haskell",
     "java" to "Java",
-    "javascript" to "JavaScript",
+    "js" to "JavaScript",
     "kotlin" to "Kotlin",
     "lua" to "Lua",
     "php" to "PHP",
