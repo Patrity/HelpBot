@@ -6,10 +6,60 @@ import java.net.URL
 import java.util.stream.Collectors
 
 
-val knownCommon = arrayOf("image2")
+val knownCommon = arrayOf(
+    "8bitjeff",
+    "bigrat",
+    "jeff",
+    "BeyondFireship",
+    "Fireship",
+    "angular",
+    "aws",
+    "git",
+    "googlecloud",
+    "kotlinold",
+    "css",
+    "fauna",
+    "firebase",
+    "flutter",
+    "hugo",
+    "ionic",
+    "nextjs",
+    "node",
+    "prisma",
+    "react",
+    "redis",
+    "rxjs",
+    "stripe",
+    "supabase",
+    "svelte",
+    "tauri",
+    "vite",
+    "vscode",
+    "vue",
+    "youtube",
+)
 
 val knownNames: Map<String, String> = mapOf(
-    "image1" to "Bild Eins"
+    "c_" to "C",
+    "cpp" to "C++",
+    "csharp" to "C#",
+    // "css" to "CSS",
+    "dart~1" to "Dart",
+    "elixir" to "Elixir",
+    "fortran" to "Fortran",
+    "golang" to "Go",
+    "haskell" to "Haskell",
+    "java" to "Java",
+    "javascript" to "JavaScript",
+    "kotlin" to "Kotlin",
+    "lua" to "Lua",
+    "php" to "PHP",
+    "python" to "Python",
+    "ruby" to "Ruby",
+    "rust" to "Rust",
+    "swift" to "Swift",
+    "typescript" to "TypeScript",
+
 )
 
 val guildId = args[0]
