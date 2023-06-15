@@ -1,6 +1,7 @@
 package io.fireship.events;
 
 import io.fireship.commands.CommandEnum;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -25,7 +26,7 @@ public class SlashCommand extends ListenerAdapter {
             if (command.getName().equals(event.getName())) {
 
                 //check if the command requires moderator permissions, and checks if the user has the permission
-                if (command.isModeratorOnly() && event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("moderator"))) {
+                if (command.isModeratorOnly() && event.getMember().getPermissions().stream().noneMatch(permission -> permission == Permission.MESSAGE_MANAGE)) {
                     event.reply("You do not have permission to use this command.").setEphemeral(true).queue();
                     return;
                 }
