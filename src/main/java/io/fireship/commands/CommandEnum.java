@@ -17,6 +17,7 @@ public enum CommandEnum {
     ),
     SETUP_LANGUAGE_ROLES("setup-tool-roles", "Sets up the tool roles message", true, new SetupToolRoles()),
     BROWSER("browser", "Common browser issues", false, new Browser()),
+    RESPONSE("response", "Fireship response", true, new Response()),
     PING("ping", "Returns round trip time", false, new Ping());
     private final String name, description;
     private final boolean moderatorOnly;
