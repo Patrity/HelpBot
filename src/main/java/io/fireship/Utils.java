@@ -9,7 +9,6 @@ public class Utils {
                 .replace("`", "\\`")
                 .replace("#", "\\#")
                 .replace("-", "\\-")
-                .replace("*", "\\*")
                 .replace(">", "\\>");
     }
 
