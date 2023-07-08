@@ -6,7 +6,10 @@ public class Utils {
         return text.replace("_", "\\_")
                 .replace("*", "\\*")
                 .replace("~", "\\~")
-                .replace("`", "\\`");
+                .replace("`", "\\`")
+                .replace("#", "\\#")
+                .replace("-", "\\-")
+                .replace(">", "\\>");
     }
 
 }
