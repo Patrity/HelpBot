@@ -21,7 +21,7 @@ public enum CommandEnum {
     private final boolean moderatorOnly;
     private final Command command;
 
-    CommandEnum(String name, String description, boolean moderatorOnly, Command command, Option... options) {
+    CommandEnum(String name, String description, boolean moderatorOnly, Command command) {
         this.name = name;
         this.description = description;
         this.moderatorOnly = moderatorOnly;

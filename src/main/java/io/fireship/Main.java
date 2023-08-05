@@ -86,6 +86,7 @@ public class Main {
                 command.addOption(option.getType(), option.getName(), option.getDescription(), option.isRequired());
             }));
 
+            //noinspection ResultOfMethodCallIgnored
             commands.addCommands(command);
         });
         commands.queue();
