@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 
@@ -17,11 +18,10 @@ public class Bean implements Command, HasOptions {
     @Override
     public void onCommand(SlashCommandInteractionEvent event) {
         Member moderator = event.getMember();
-        Member beaned = Objects.requireNonNull(event.getOption("user")).getAsMember();
+        User beaned = Objects.requireNonNull(event.getOption("user")).getAsUser();
         var reason = event.getOption("reason");
 
         assert moderator != null;
-        assert beaned != null;
 
         var description = new StringBuilder();
 
@@ -35,9 +35,20 @@ public class Bean implements Command, HasOptions {
         }
 
         description.append(String.format(
-                "<:trustedAdmin:1137406869535735850>️ **Moderator:** %s<:whitelistUser:1137406878033387610><:whitelistInvite:1137406875302891680><:whitelistChannel:1137406873868451901><:upvoter:1137406871435759736><:potentialDanger:1137406863349121036>",
+                "<:trustedAdmin:1137406869535735850> **Moderator:** %s<:whitelistUser:1137406878033387610><:whitelistInvite:1137406875302891680><:whitelistChannel:1137406873868451901><:upvoter:1137406871435759736><:potentialDanger:1137406863349121036>",
                 moderator.getAsMention()
         ));
+
+        var formattedBeaned = new StringBuilder("<:space:1137406865299488798><:success:1137406866251591731> ");
+
+        formattedBeaned.append(beaned.getName());
+
+        if (!beaned.getDiscriminator().equals("0000")) {
+            formattedBeaned.append("#")
+                    .append(beaned.getDiscriminator());
+        }
+
+        formattedBeaned.append(" [`").append(beaned.getId()).append("`]");
 
         MessageEmbed response = new EmbedBuilder()
                 .setColor(Role.DEFAULT_COLOR_RAW)
@@ -45,7 +56,7 @@ public class Bean implements Command, HasOptions {
                 .setDescription(description)
                 .addField(
                     "Beaned:",
-                    "<:space:1137406865299488798><:success:1137406866251591731> " + beaned.getEffectiveName() + " [`" + beaned.getId() + "`]",
+                    formattedBeaned.toString(),
                     false
                 )
                 .build();
