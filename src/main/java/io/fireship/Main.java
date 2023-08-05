@@ -5,8 +5,6 @@ import io.fireship.events.ReadyListener;
 import io.fireship.events.RoleSelect;
 import io.fireship.events.SlashCommand;
 import io.fireship.model.Option;
-import io.javalin.Javalin;
-import io.javalin.http.staticfiles.Location;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -27,8 +25,6 @@ public class Main {
     public Properties appProperties = new Properties();
     public Logger logger;
     public JDA jda;
-    public Javalin http;
-    public boolean isProduction;
     public Map<String, String> config = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
@@ -37,9 +33,6 @@ public class Main {
         HELPBOT = new Main();
         HELPBOT.logger = org.slf4j.LoggerFactory.getLogger(Main.class);
         HELPBOT.logger.info("Fireship Helpbot Loading...");
-
-        //check if we are running in production
-        HELPBOT.isProduction = HELPBOT.productionCheck();
 
         HELPBOT.initProperties();
 
@@ -51,26 +44,6 @@ public class Main {
         }
         HELPBOT.initBot(botToken);
         HELPBOT.registerCommands();
-        try {
-            if (HELPBOT.isProduction) HELPBOT.startServer(Integer.parseInt(args[0]));
-        } catch (Exception e) {
-            HELPBOT.logger.error("Please provide a valid port number");
-        }
-    }
-
-    void startServer(int port) {
-        http = Javalin.create(javalinConfig ->
-            javalinConfig.addStaticFiles( staticFiles -> {
-                staticFiles.location = Location.CLASSPATH;
-                staticFiles.directory = "/static";
-                staticFiles.hostedPath = "/";
-            })
-        ).start(port);
-    }
-
-    boolean productionCheck() {
-        String token = System.getenv("token");
-        return token != null;
     }
 
     String getBotToken() {
@@ -79,20 +52,15 @@ public class Main {
 
     //load app.properties from the java resources directory
     void initProperties() throws IOException {
-        if(HELPBOT.isProduction) {
-            //load from env
-            HELPBOT.config.put("token", System.getenv("token"));
-        } else {
-            HELPBOT.logger.info("Loading app configuration...");
-            InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
-            appProperties.load(str);
-            for(String key : appProperties.stringPropertyNames()) {
-                HELPBOT.config.put(key, appProperties.getProperty(key));
-            }
-            //loop through config and print it out
-            for(Map.Entry<String, String> entry : HELPBOT.config.entrySet()) {
-                HELPBOT.logger.warn(entry.getKey() + " = " + entry.getValue());
-            }
+        HELPBOT.logger.info("Loading app configuration...");
+        InputStream str = HELPBOT.getClass().getResourceAsStream("/app.properties");
+        appProperties.load(str);
+        for(String key : appProperties.stringPropertyNames()) {
+            HELPBOT.config.put(key, appProperties.getProperty(key));
+        }
+        //loop through config and print it out
+        for(Map.Entry<String, String> entry : HELPBOT.config.entrySet()) {
+            HELPBOT.logger.warn(entry.getKey() + " = " + entry.getValue());
         }
     }
 

@@ -16,7 +16,7 @@ public class SlashCommand extends ListenerAdapter {
 
         HELPBOT.logger.info("Slash command received: " + event.getName());
 
-        if (!HELPBOT.isProduction && event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("admin"))) {
+        if (event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("admin"))) {
             event.reply("You do not have permission to use this command.").setEphemeral(true).queue();
             return;
         }
