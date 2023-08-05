@@ -35,7 +35,7 @@ public class Bean implements Command, HasOptions {
         }
 
         description.append(String.format(
-                "<:trustedAdmin:1137406869535735850>️ **Moderator:** %s<:whitelistUser:1137406878033387610><:whitelistInvite:1137406875302891680><:whitelistChannel:1137406873868451901><:upvoter:1137406871435759736><:potentialDanger:1137406863349121036>",
+                "<:trustedAdmin:1137406869535735850> **Moderator:** %s<:whitelistUser:1137406878033387610><:whitelistInvite:1137406875302891680><:whitelistChannel:1137406873868451901><:upvoter:1137406871435759736><:potentialDanger:1137406863349121036>",
                 moderator.getAsMention()
         ));
 
