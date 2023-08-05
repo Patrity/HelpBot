@@ -4,11 +4,9 @@ import io.fireship.commands.CommandEnum;
 import io.fireship.events.ReadyListener;
 import io.fireship.events.RoleSelect;
 import io.fireship.events.SlashCommand;
-import io.fireship.model.Option;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.SlashCommandData;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
@@ -83,11 +81,11 @@ public class Main {
             HELPBOT.logger.info(" - Registering " + commandData.getName());
             SlashCommandData command = Commands.slash(commandData.getName(), commandData.getDescription());
 
-            for (int i = 0; i < commandData.getOptions().size(); i++) {
-                Option option = commandData.getOptions().get(i);
+            commandData.getOptions().ifPresent(list -> list.forEach(option -> {
                 HELPBOT.logger.info(" - - Adding option " + option.getName());
-                command.addOption(OptionType.STRING, option.getName(), option.getDescription(), option.isRequired());
-            }
+                command.addOption(option.getType(), option.getName(), option.getDescription(), option.isRequired());
+            }));
+
             commands.addCommands(command);
         });
         commands.queue();
