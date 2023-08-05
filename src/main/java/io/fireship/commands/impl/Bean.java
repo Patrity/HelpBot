@@ -33,6 +33,12 @@ public class Bean implements Command, HasOptions {
                 )
                 .build();
 
+        beaned.openPrivateChannel()
+                .flatMap(channel -> channel.sendMessage(
+                        "You were beaned by %s".formatted(moderator.getAsMention())
+                ))
+                .queue();
+
         event.replyEmbeds(response).queue();
     }
 
