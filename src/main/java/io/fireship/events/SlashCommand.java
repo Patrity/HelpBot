@@ -16,11 +16,6 @@ public class SlashCommand extends ListenerAdapter {
 
         HELPBOT.logger.info("Slash command received: " + event.getName());
 
-        if (event.getMember().getRoles().stream().noneMatch(role -> role.getName().equalsIgnoreCase("admin"))) {
-            event.reply("You do not have permission to use this command.").setEphemeral(true).queue();
-            return;
-        }
-
         //loop through all the commands and find the one that matches the command name
         Arrays.asList(CommandEnum.values()).forEach(command -> {
             if (command.getName().equals(event.getName())) {
