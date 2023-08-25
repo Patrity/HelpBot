@@ -6,8 +6,6 @@ import io.fireship.model.Option;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
-
 
 
 public enum CommandEnum {
