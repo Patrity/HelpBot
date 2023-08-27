@@ -19,7 +19,6 @@ public class SlashCommand extends ListenerAdapter {
         //loop through all the commands and find the one that matches the command name
         Arrays.asList(CommandEnum.values()).forEach(command -> {
             if (command.getName().equals(event.getName())) {
-
                 //check if the command requires moderator permissions, and checks if the user has the permission
                 if (command.isModeratorOnly() && event.getMember().getPermissions().stream().noneMatch(permission -> permission == Permission.MESSAGE_MANAGE)) {
                     event.reply("You do not have permission to use this command.").setEphemeral(true).queue();

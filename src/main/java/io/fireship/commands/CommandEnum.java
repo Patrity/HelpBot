@@ -15,7 +15,7 @@ public enum CommandEnum {
     BROWSER("browser", "Common browser issues", false, new Browser()),
     RESPONSE("response", "Fireship response", true, new Response()),
     BEAN("bean", "Bean a user", true, new Bean()),
-    PING("ping", "Returns round trip time", false, new Ping());
+    PING("ping", "Returns round trip time", true, new Ping());
 
     private final String name, description;
     private final boolean moderatorOnly;
