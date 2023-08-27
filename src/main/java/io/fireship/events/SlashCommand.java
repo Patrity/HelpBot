@@ -1,7 +1,6 @@
 package io.fireship.events;
 
 import io.fireship.commands.CommandEnum;
-import io.fireship.data.Channel;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -20,11 +19,6 @@ public class SlashCommand extends ListenerAdapter {
         //loop through all the commands and find the one that matches the command name
         Arrays.asList(CommandEnum.values()).forEach(command -> {
             if (command.getName().equals(event.getName())) {
-                if (command.getAllowedChannels().size() < Channel.all.size() && !command.getAllowedChannels().contains(event.getChannel().getName())) {
-                    event.reply("You cannot use this command in this channel.").setEphemeral(true).queue();
-                    return;
-                }
-
                 //check if the command requires moderator permissions, and checks if the user has the permission
                 if (command.isModeratorOnly() && event.getMember().getPermissions().stream().noneMatch(permission -> permission == Permission.MESSAGE_MANAGE)) {
                     event.reply("You do not have permission to use this command.").setEphemeral(true).queue();
