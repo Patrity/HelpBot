@@ -15,7 +15,7 @@ public class SelfMute implements Command, HasOptions {
     @Override
     public void onCommand(SlashCommandInteractionEvent event) {
         if (event.getMember().isTimedOut()) {
-            event.reply("You are alread timed out.")
+            event.reply("You are already timed out.")
                     .setEphemeral(true).queue();
             return;
         }
